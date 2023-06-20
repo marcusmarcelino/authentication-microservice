@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -23,9 +24,12 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "personal_data")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class PersonalData {
   @Id
   @GeneratedValue
+  @EqualsAndHashCode.Include
+  @Column(unique = true, nullable = false)
   private UUID id;
 
   @NotBlank
@@ -48,9 +52,8 @@ public class PersonalData {
   @CollectionTable(name = "personal_data_contacts", joinColumns = @JoinColumn(name = "personal_data_id"))
   private List<Contact> contacts;
 
-  @OneToOne
-  @JoinColumn(name = "id_user", referencedColumnName = "id")
-  private User idUser;
+  @OneToOne(mappedBy = "personalData")
+  private User user;
 
   @ElementCollection
   @CollectionTable(name = "personal_data_address", joinColumns = @JoinColumn(name = "personal_data_id"))

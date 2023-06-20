@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -20,10 +21,12 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "users")
-public class User extends PersonalData {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class User {
   @Id
   @GeneratedValue
   @Column(unique = true, nullable = false)
+  @EqualsAndHashCode.Include
   private UUID id;
 
   @NotBlank
@@ -38,5 +41,5 @@ public class User extends PersonalData {
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "id_personal_data", referencedColumnName = "id")
-  private PersonalData idPersonalData;
+  private PersonalData personalData;
 }
