@@ -49,3 +49,5 @@ src/test/java/com/br/apibuyrev/proposal/
 src/test/java/com/br/apibuyrev/purchaseList/
 src/test/java/com/br/apibuyrev/chosenProposal/
 src/test/java/com/br/apibuyrev/statementOfResponsibility/
+
+docker/
