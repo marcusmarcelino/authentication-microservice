@@ -51,3 +51,4 @@ src/test/java/com/br/apibuyrev/chosenProposal/
 src/test/java/com/br/apibuyrev/statementOfResponsibility/
 
 docker/
+db/
