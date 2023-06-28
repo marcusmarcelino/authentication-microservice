@@ -15,13 +15,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
+@Builder(setterPrefix = "with")
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "personal_data")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
