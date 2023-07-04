@@ -1,5 +1,5 @@
 package com.br.apibuyrev.modules.user.enums;
 
-public enum RoleType {
+public enum TypeOfRole {
   ADMIN, COMPANY, CLIENT;
 }

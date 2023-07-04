@@ -1,5 +1,5 @@
 package com.br.apibuyrev.modules.user.enums;
 
-public enum PersonalType {
+public enum TypeOfPerson {
   PHYSICALPERSON, LEGALPERSON;
 }

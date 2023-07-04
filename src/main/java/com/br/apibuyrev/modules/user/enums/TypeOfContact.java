@@ -1,5 +1,5 @@
 package com.br.apibuyrev.modules.user.enums;
 
-public enum ContactType {
+public enum TypeOfContact {
   FIXED, MOBILE;
 }
