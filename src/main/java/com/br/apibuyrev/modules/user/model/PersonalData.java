@@ -18,13 +18,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @Builder(setterPrefix = "with")
@@ -40,12 +38,8 @@ public class PersonalData {
   @Column(unique = true, nullable = false)
   private UUID id;
 
-  @NotBlank
-  @NonNull
   private String firstname;
 
-  @NotBlank
-  @NonNull
   private String lastname;
 
   @Enumerated(EnumType.STRING)
