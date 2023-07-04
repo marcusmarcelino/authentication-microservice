@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.br.apibuyrev.modules.user.enums.RoleType;
+import com.br.apibuyrev.modules.user.enums.TypeOfRole;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -55,7 +55,7 @@ public class User implements UserDetails {
   private String password;
 
   @Enumerated(EnumType.STRING)
-  private List<RoleType> roles;
+  private List<TypeOfRole> roles;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "id_personal_data", referencedColumnName = "id")

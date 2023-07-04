@@ -1,15 +1,19 @@
 package com.br.apibuyrev.modules.user.model;
 
-import com.br.apibuyrev.modules.user.enums.ContactType;
+import com.br.apibuyrev.modules.user.enums.TypeOfContact;
 
 import jakarta.persistence.Embeddable;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
 @Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
 public class Contact {
-  private ContactType type;
+  private TypeOfContact type;
   private String contact;
 }

@@ -3,12 +3,16 @@ package com.br.apibuyrev.modules.user.model;
 import java.util.List;
 import java.util.UUID;
 
-import com.br.apibuyrev.modules.user.enums.PersonalType;
+import com.br.apibuyrev.modules.auth.model.RegisterRequest;
+import com.br.apibuyrev.modules.user.enums.TypeOfPerson;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -44,22 +48,29 @@ public class PersonalData {
   @NonNull
   private String lastname;
 
-  private PersonalType type;
+  @Enumerated(EnumType.STRING)
+  private TypeOfPerson typeOfperson;
 
   @Column(unique = true, nullable = true)
-  private String cpf;
-
-  @Column(unique = true, nullable = true)
-  private String cnpj;
+  private String cpfCnpj;
 
   @ElementCollection
   @CollectionTable(name = "personal_data_contacts", joinColumns = @JoinColumn(name = "personal_data_id"))
   private List<Contact> contacts;
 
+  @JsonIgnore
   @OneToOne(mappedBy = "personalData")
   private User user;
 
   @ElementCollection
   @CollectionTable(name = "personal_data_address", joinColumns = @JoinColumn(name = "personal_data_id"))
   private List<Address> address;
+
+  public void setByTypeOfPerson(RegisterRequest registerRequest) {
+    if (registerRequest.getTypeOfPerson().equals(TypeOfPerson.PHYSICALPERSON)) {
+      setCpfCnpj(registerRequest.getCpf());
+    } else {
+      setCpfCnpj(registerRequest.getCnpj());
+    }
+  }
 }
