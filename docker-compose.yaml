@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2'
 services:
   db:
     image: postgres
@@ -10,6 +10,16 @@ services:
       - 5432:5432
     volumes:
       - ./db:/var/lib/postgresql/data
+    networks:
+      - buyrev-network
+  apibuyrev:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_started
     networks:
       - buyrev-network
 networks:
