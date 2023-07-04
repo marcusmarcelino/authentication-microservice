@@ -1,6 +1,7 @@
 package com.br.apibuyrev.modules.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,7 @@ public class AuthController {
     User user = authService.registerClient(registerRequest);
     if (user == null)
       return ResponseEntity.ok("Usuário já cadastrado, utilize outro e-mail.");
-    return ResponseEntity.ok("Usuário registrado com sucesso!");
+    return ResponseEntity.status(HttpStatus.CREATED).body("Usuário registrado com sucesso!");
   }
 
   @PostMapping("/register/company")
@@ -33,7 +34,7 @@ public class AuthController {
     User user = authService.registerCompany(registerRequest);
     if (user == null)
       return ResponseEntity.ok("Usuário já cadastrado, utilize outro e-mail.");
-    return ResponseEntity.ok("Usuário registrado com sucesso!");
+    return ResponseEntity.status(HttpStatus.CREATED).body("Usuário registrado com sucesso!");
   }
 
   @PostMapping("/authenticate")
