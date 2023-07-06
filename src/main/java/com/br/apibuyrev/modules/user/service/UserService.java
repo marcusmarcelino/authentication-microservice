@@ -1,9 +1,12 @@
 package com.br.apibuyrev.modules.user.service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.br.apibuyrev.modules.user.dto.UserDTO;
 import com.br.apibuyrev.modules.user.model.User;
@@ -21,5 +24,12 @@ public class UserService {
     List<UserDTO> list = users.stream().map(user -> new UserDTO(user.getId(), user.getEmail()))
         .collect(Collectors.toList());
     return list;
+  }
+
+  public UserDTO findById(UUID id) {
+    User user = userRepository.findById(id).orElseThrow(() -> {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!");
+    });
+    return new UserDTO(user.getId(), user.getEmail());
   }
 }
