@@ -3,11 +3,13 @@ package com.br.apibuyrev.modules.auth.service;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.br.apibuyrev.modules.auth.model.AuthenticationRequest;
 import com.br.apibuyrev.modules.auth.model.AuthenticationResponse;
@@ -30,10 +32,20 @@ public class AuthService {
   private final AuthenticationManager authenticationManager;
   private final JwtService jwtService;
 
+  public User registerClient(RegisterRequest registerRequest) {
+    User user = prepareUserRegister(registerRequest);
+    user.setRoles(Arrays.asList(TypeOfRole.CLIENT));
+    return userRepository.save(user);
+  }
+
+  public User registerCompany(RegisterRequest registerRequest) {
+    User user = prepareUserRegister(registerRequest);
+    user.setRoles(Arrays.asList(TypeOfRole.COMPANY));
+    return userRepository.save(user);
+  }
+
   private User prepareUserRegister(RegisterRequest registerRequest) {
-    Optional<User> existingUser = userRepository.findByEmail(registerRequest.getEmail());
-    if (existingUser.isPresent())
-      return null;
+    userAlreadyExist(registerRequest);
 
     Contact contact = Contact.builder()
         .withContact(registerRequest.getContact())
@@ -58,7 +70,7 @@ public class AuthService {
         .withAddress(Arrays.asList(address))
         .build();
 
-    personaldata.setByTypeOfPerson(registerRequest);
+    personaldata.validateCompletionAndSetCpfCnjpByTypeOfPerson(registerRequest);
 
     User user = User.builder()
         .withPersonalData(personaldata)
@@ -71,20 +83,10 @@ public class AuthService {
     return user;
   }
 
-  public User registerClient(RegisterRequest registerRequest) {
-    User user = prepareUserRegister(registerRequest);
-    if (user == null)
-      return null;
-    user.setRoles(Arrays.asList(TypeOfRole.CLIENT));
-    return userRepository.save(user);
-  }
-
-  public User registerCompany(RegisterRequest registerRequest) {
-    User user = prepareUserRegister(registerRequest);
-    if (user == null)
-      return null;
-    user.setRoles(Arrays.asList(TypeOfRole.COMPANY));
-    return userRepository.save(user);
+  private void userAlreadyExist(RegisterRequest registerRequest) {
+    Optional<User> existingUser = userRepository.findByEmail(registerRequest.getEmail());
+    if (existingUser.isPresent())
+      throw new ResponseStatusException(HttpStatus.OK, "Usuário já cadastrado, utilize outro e-mail.");
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest authRequest) {

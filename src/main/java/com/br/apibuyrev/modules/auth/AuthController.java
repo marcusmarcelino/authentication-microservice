@@ -12,7 +12,6 @@ import com.br.apibuyrev.modules.auth.model.AuthenticationRequest;
 import com.br.apibuyrev.modules.auth.model.AuthenticationResponse;
 import com.br.apibuyrev.modules.auth.model.RegisterRequest;
 import com.br.apibuyrev.modules.auth.service.AuthService;
-import com.br.apibuyrev.modules.user.model.User;
 
 import jakarta.validation.Valid;
 
@@ -24,17 +23,13 @@ public class AuthController {
 
   @PostMapping("/register/client")
   public ResponseEntity<String> registerClient(@RequestBody @Valid RegisterRequest registerRequest) {
-    User user = authService.registerClient(registerRequest);
-    if (user == null)
-      return ResponseEntity.ok("Usuário já cadastrado, utilize outro e-mail.");
+    authService.registerClient(registerRequest);
     return ResponseEntity.status(HttpStatus.CREATED).body("Usuário registrado com sucesso!");
   }
 
   @PostMapping("/register/company")
   public ResponseEntity<String> registerCompany(@RequestBody @Valid RegisterRequest registerRequest) {
-    User user = authService.registerCompany(registerRequest);
-    if (user == null)
-      return ResponseEntity.ok("Usuário já cadastrado, utilize outro e-mail.");
+    authService.registerCompany(registerRequest);
     return ResponseEntity.status(HttpStatus.CREATED).body("Usuário registrado com sucesso!");
   }
 

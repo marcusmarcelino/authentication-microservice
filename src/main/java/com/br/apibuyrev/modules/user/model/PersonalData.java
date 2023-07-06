@@ -3,9 +3,11 @@ package com.br.apibuyrev.modules.user.model;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.br.apibuyrev.modules.auth.model.RegisterRequest;
 import com.br.apibuyrev.modules.user.enums.TypeOfPerson;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -52,7 +54,6 @@ public class PersonalData {
   @CollectionTable(name = "personal_data_contacts", joinColumns = @JoinColumn(name = "personal_data_id"))
   private List<Contact> contacts;
 
-  @JsonIgnore
   @OneToOne(mappedBy = "personalData")
   private User user;
 
@@ -60,10 +61,18 @@ public class PersonalData {
   @CollectionTable(name = "personal_data_address", joinColumns = @JoinColumn(name = "personal_data_id"))
   private List<Address> address;
 
-  public void setByTypeOfPerson(RegisterRequest registerRequest) {
+  public void validateCompletionAndSetCpfCnjpByTypeOfPerson(RegisterRequest registerRequest) {
     if (registerRequest.getTypeOfPerson().equals(TypeOfPerson.PHYSICALPERSON)) {
+      if (registerRequest.getCpf().isBlank())
+        throw new ResponseStatusException(
+            HttpStatus.BAD_REQUEST,
+            "É necessário o preenchimento do CPF!");
       setCpfCnpj(registerRequest.getCpf());
     } else {
+      if (registerRequest.getCnpj().isBlank())
+        throw new ResponseStatusException(
+            HttpStatus.BAD_REQUEST,
+            "É necessário o preenchimento do CNPJ!");
       setCpfCnpj(registerRequest.getCnpj());
     }
   }
