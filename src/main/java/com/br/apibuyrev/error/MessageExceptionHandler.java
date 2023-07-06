@@ -1,6 +1,6 @@
 package com.br.apibuyrev.error;
 
-import java.util.Map;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(setterPrefix = "with")
-public class ErrorResponse {
-  private String message;
+public class MessageExceptionHandler {
+  private Date timestamp;
   private Integer code;
-  private String status;
-  private Map<String, String> fields;
+  private String message;
 }

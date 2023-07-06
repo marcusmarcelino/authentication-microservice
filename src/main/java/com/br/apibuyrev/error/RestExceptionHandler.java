@@ -1,11 +1,15 @@
 package com.br.apibuyrev.error;
 
+import java.util.Date;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -23,4 +27,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(errorResponse.getErrorResponse(), HttpStatus.BAD_REQUEST);
   }
 
+  @ExceptionHandler({ AccessDeniedException.class })
+  public ResponseEntity<Object> handleAccessDeniedException(
+      Exception ex, WebRequest request) {
+
+    MessageExceptionHandler messageExceptionHandler = MessageExceptionHandler.builder()
+        .withTimestamp(new Date())
+        .withCode(HttpStatus.FORBIDDEN.value())
+        .withMessage("Acesso negado!")
+        .build();
+
+    return new ResponseEntity<Object>(messageExceptionHandler, HttpStatus.FORBIDDEN);
+  }
 }
