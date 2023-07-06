@@ -4,6 +4,7 @@ import com.br.apibuyrev.modules.user.enums.TypeOfContact;
 import com.br.apibuyrev.modules.user.enums.TypeOfPerson;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
@@ -13,15 +14,18 @@ public class RegisterRequest {
 
   private String lastname;
 
+  @NotNull(message = "{form.field.message}")
   private TypeOfPerson typeOfPerson;
 
-  @NotBlank(message = "{form.field.message}")
-  private String cpfCnpj;
+  private String cpf;
+
+  private String cnpj;
 
   @NotBlank(message = "{form.field.message}")
   private String district;
 
   private String road;
+
   private String number;
 
   @NotBlank(message = "{form.field.message}")
@@ -36,9 +40,9 @@ public class RegisterRequest {
   @NotBlank(message = "{form.field.message}")
   private String complement;
 
-  @NotBlank(message = "{form.field.message}")
   private String cep;
 
+  @NotNull(message = "{form.field.message}")
   private TypeOfContact typeOfContact;
 
   private String contact;
