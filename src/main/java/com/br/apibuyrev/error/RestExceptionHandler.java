@@ -19,13 +19,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
       HttpHeaders headers,
       HttpStatusCode status,
       WebRequest request) {
-    // Map<String, String> errors = new HashMap<>();
-    // ex.getBindingResult().getAllErrors().forEach((error) -> {
-    // String fieldName = ((FieldError) error).getField();
-    // String errorMessage = error.getDefaultMessage();
-    // errors.put(fieldName, errorMessage);
-    // });
-
     ResourceMethodArgumentNotValid errorResponse = new ResourceMethodArgumentNotValid(ex, status);
     return new ResponseEntity<>(errorResponse.getErrorResponse(), HttpStatus.BAD_REQUEST);
   }
