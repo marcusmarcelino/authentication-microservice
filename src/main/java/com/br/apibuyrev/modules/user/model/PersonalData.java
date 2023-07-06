@@ -1,6 +1,7 @@
 package com.br.apibuyrev.modules.user.model;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -61,19 +62,22 @@ public class PersonalData {
   @CollectionTable(name = "personal_data_address", joinColumns = @JoinColumn(name = "personal_data_id"))
   private List<Address> address;
 
-  public void validateCompletionAndSetCpfCnjpByTypeOfPerson(RegisterRequest registerRequest) {
-    if (registerRequest.getTypeOfPerson().equals(TypeOfPerson.PHYSICALPERSON)) {
-      if (registerRequest.getCpf().isBlank())
-        throw new ResponseStatusException(
-            HttpStatus.BAD_REQUEST,
-            "É necessário o preenchimento do CPF!");
-      setCpfCnpj(registerRequest.getCpf());
-    } else {
-      if (registerRequest.getCnpj().isBlank())
-        throw new ResponseStatusException(
-            HttpStatus.BAD_REQUEST,
-            "É necessário o preenchimento do CNPJ!");
-      setCpfCnpj(registerRequest.getCnpj());
+  public void handleIdentificationByTypeOfPerson(RegisterRequest registerRequest) {
+    if (checkIsPhisicalPerson(registerRequest.getTypeOfPerson())) {
+      validateCompletionAndSetValue(registerRequest.getCpf(), "CPF");
+      return;
     }
+    validateCompletionAndSetValue(registerRequest.getCnpj(), "CNPJ");
+  }
+
+  public boolean checkIsPhisicalPerson(TypeOfPerson typeOfPerson) {
+    return typeOfPerson.equals(TypeOfPerson.PHYSICALPERSON);
+  }
+
+  private void validateCompletionAndSetValue(String cnpfCnpj, String field) {
+    String BASE_MESSAGE = "É necessário o preenchimento do " + field;
+    Optional.ofNullable(cnpfCnpj).ifPresentOrElse((value) -> setCpfCnpj(cnpfCnpj), () -> {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BASE_MESSAGE);
+    });
   }
 }

@@ -70,7 +70,7 @@ public class AuthService {
         .withAddress(Arrays.asList(address))
         .build();
 
-    personaldata.validateCompletionAndSetCpfCnjpByTypeOfPerson(registerRequest);
+    personaldata.handleIdentificationByTypeOfPerson(registerRequest);
 
     User user = User.builder()
         .withPersonalData(personaldata)
