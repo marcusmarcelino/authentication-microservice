@@ -86,7 +86,7 @@ public class AuthService {
   private void userAlreadyExist(RegisterRequest registerRequest) {
     Optional<User> existingUser = userRepository.findByEmail(registerRequest.getEmail());
     if (existingUser.isPresent())
-      throw new ResponseStatusException(HttpStatus.OK, "Usuário já cadastrado, utilize outro e-mail.");
+      throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Usuário já cadastrado.");
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest authRequest) {
@@ -94,7 +94,7 @@ public class AuthService {
         new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
 
     User user = userRepository.findByEmail(authRequest.getEmail())
-        .orElseThrow(() -> new UsernameNotFoundException("Usuário não encojtrado!"));
+        .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
     var token = jwtService.generateToken(user);
     return AuthenticationResponse.builder()
         .withToken(token)
