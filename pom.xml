@@ -8,11 +8,11 @@
 		<version>3.1.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.br.apibuyrev</groupId>
-	<artifactId>buyrev</artifactId>
+	<groupId>com.br.authentication_microservice</groupId>
+	<artifactId>authentication_microservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>buyrev</name>
-	<description>BuyRev API</description>
+	<name>authentication_microservice</name>
+	<description>Authentication Microservice</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

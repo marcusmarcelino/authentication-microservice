@@ -11,8 +11,8 @@ services:
     volumes:
       - ./db:/var/lib/postgresql/data
     networks:
-      - buyrev-network
-  apibuyrev:
+      - authentication_microservice-network
+  authentication_microservice:
     build: .
     restart: always
     ports:
@@ -21,7 +21,7 @@ services:
       db:
         condition: service_started
     networks:
-      - buyrev-network
+      - authentication_microservice-network
 networks:
-  buyrev-network:
+  authentication_microservice-network:
     driver: bridge

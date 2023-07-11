@@ -36,19 +36,19 @@ build/
 /src/main/resources/prod.yaml
 
 ### modules ###
-src/main/java/com/br/apibuyrev/modules/company/
-src/main/java/com/br/apibuyrev/modules/proposal/
-src/main/java/com/br/apibuyrev/modules/purchaseList/
-src/main/java/com/br/apibuyrev/modules/chosenProposal/
-src/main/java/com/br/apibuyrev/modules/statementOfResponsibility/
+src/main/java/com/br/authentication_microservice/modules/company/
+src/main/java/com/br/authentication_microservice/modules/proposal/
+src/main/java/com/br/authentication_microservice/modules/purchaseList/
+src/main/java/com/br/authentication_microservice/modules/chosenProposal/
+src/main/java/com/br/authentication_microservice/modules/statementOfResponsibility/
 
 
 ### test ###
-src/test/java/com/br/apibuyrev/company/
-src/test/java/com/br/apibuyrev/proposal/
-src/test/java/com/br/apibuyrev/purchaseList/
-src/test/java/com/br/apibuyrev/chosenProposal/
-src/test/java/com/br/apibuyrev/statementOfResponsibility/
+src/test/java/com/br/authentication_microservice/company/
+src/test/java/com/br/authentication_microservice/proposal/
+src/test/java/com/br/authentication_microservice/purchaseList/
+src/test/java/com/br/authentication_microservice/chosenProposal/
+src/test/java/com/br/authentication_microservice/statementOfResponsibility/
 
 docker/
 db/
