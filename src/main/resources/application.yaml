@@ -11,13 +11,16 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
+        format-sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  web:
+    resources:
+      add-mappings: false
   mvc:
+    throw-exception-if-no-handler-found: true
     pathmatch:
       matching-strategy: ant-path-matcher
-
 server:
   error:
     include-message: always
