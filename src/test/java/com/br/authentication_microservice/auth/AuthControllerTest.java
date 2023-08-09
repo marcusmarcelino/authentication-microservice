@@ -30,6 +30,6 @@ public class AuthControllerTest {
     String json = jsonObj.toString();
     mockMvc
         .perform(MockMvcRequestBuilders.post(uri).content(json).contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.status().isForbidden());
+        .andExpect(MockMvcResultMatchers.status().isUnauthorized());
   }
 }

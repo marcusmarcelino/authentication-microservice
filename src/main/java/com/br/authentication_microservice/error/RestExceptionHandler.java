@@ -34,7 +34,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     MessageExceptionHandler messageExceptionHandler = MessageExceptionHandler.builder()
         .withTimestamp(new Date())
         .withCode(HttpStatus.UNAUTHORIZED.value())
-        .withMessage("Acesso negado!")
+        .withMessage("Credenciais inválidas.")
         .build();
 
     return new ResponseEntity<Object>(messageExceptionHandler, HttpStatus.UNAUTHORIZED);
