@@ -15,6 +15,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
@@ -65,11 +66,13 @@ public class JwtService {
           .build()
           .parseClaimsJws(token)
           .getBody();
+    } catch (SignatureException ex) {
+      throw ex;
     } catch (UnsupportedJwtException ex) {
-      // e.printStackTrace();
       throw ex;
     } catch (ExpiredJwtException ex) {
-      // e.printStackTrace();
+      throw ex;
+    } catch (Exception ex) {
       throw ex;
     }
   }
