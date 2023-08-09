@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,7 +27,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(errorResponse.getErrorResponse(), HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler({ AccessDeniedException.class })
+  @ExceptionHandler({ BadCredentialsException.class })
   public ResponseEntity<Object> handleAccessDeniedException(
       Exception ex, WebRequest request) {
 
@@ -37,19 +37,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         .withMessage("Acesso negado!")
         .build();
 
-    return new ResponseEntity<Object>(messageExceptionHandler, HttpStatus.FORBIDDEN);
+    return new ResponseEntity<Object>(messageExceptionHandler, HttpStatus.UNAUTHORIZED);
   }
-
-  // @ExceptionHandler({ EntityNotFoundException.class })
-  // public ResponseEntity<Object> tratarErro404() {
-  // return new ResponseEntity<Object>("Not found!", HttpStatus.NOT_FOUND);
-  // }
-
-  // @ExceptionHandler({ ExpiredJwtException.class })
-  // public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException
-  // ex) {
-  // System.out.println("Entrou no exception do jwt");
-  // String errorMessage = "Token expirado. Faça login novamente.";
-  // return new ResponseEntity<>(errorMessage, HttpStatus.UNAUTHORIZED);
-  // }
 }
