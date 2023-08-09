@@ -10,6 +10,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,20 +39,32 @@ public class AuthenticationFilter extends OncePerRequestFilter {
       return;
     }
 
-    jwt = authHeader.substring(7);
-    email = authenticationService.extractUsername(jwt);
+    try {
+      jwt = authHeader.substring(7);
+      email = authenticationService.extractUsername(jwt);
 
-    if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-      UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+      if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
-      if (authenticationService.isTokenValid(jwt, userDetails)) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-            email,
-            null,
-            userDetails.getAuthorities());
-        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authToken);
+        if (authenticationService.isTokenValid(jwt, userDetails)) {
+          UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+              email,
+              null,
+              userDetails.getAuthorities());
+          authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+          SecurityContextHolder.getContext().setAuthentication(authToken);
+        }
       }
+    } catch (UnsupportedJwtException ex) {
+      response.addHeader("token_access_error", "Formato de token incorreto.");
+    } catch (ExpiredJwtException ex) {
+      // String responseBody = "{\"message\": +\"Token Expirado.\",\"description\":" +
+      // ex.getLocalizedMessage() + " }";
+
+      // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      // response.getWriter().println(responseBody);
+      // response.getWriter().write(responseBody);
+      response.addHeader("token_access_error", "Token expirado.");
     }
 
     filterChain.doFilter(request, response);

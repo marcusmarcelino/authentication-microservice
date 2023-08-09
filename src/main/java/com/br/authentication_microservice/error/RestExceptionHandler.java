@@ -39,4 +39,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     return new ResponseEntity<Object>(messageExceptionHandler, HttpStatus.FORBIDDEN);
   }
+
+  // @ExceptionHandler({ EntityNotFoundException.class })
+  // public ResponseEntity<Object> tratarErro404() {
+  // return new ResponseEntity<Object>("Not found!", HttpStatus.NOT_FOUND);
+  // }
+
+  // @ExceptionHandler({ ExpiredJwtException.class })
+  // public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException
+  // ex) {
+  // System.out.println("Entrou no exception do jwt");
+  // String errorMessage = "Token expirado. Faça login novamente.";
+  // return new ResponseEntity<>(errorMessage, HttpStatus.UNAUTHORIZED);
+  // }
 }
