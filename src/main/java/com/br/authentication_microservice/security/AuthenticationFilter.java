@@ -12,6 +12,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,16 +56,14 @@ public class AuthenticationFilter extends OncePerRequestFilter {
           SecurityContextHolder.getContext().setAuthentication(authToken);
         }
       }
+    } catch (SignatureException ex) {
+      response.addHeader("token_access_error", "Assinatura do token inválida.");
     } catch (UnsupportedJwtException ex) {
-      response.addHeader("token_access_error", "Formato de token incorreto.");
+      response.addHeader("token_access_error", "Formato do token incorreto.");
     } catch (ExpiredJwtException ex) {
-      // String responseBody = "{\"message\": +\"Token Expirado.\",\"description\":" +
-      // ex.getLocalizedMessage() + " }";
-
-      // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      // response.getWriter().println(responseBody);
-      // response.getWriter().write(responseBody);
       response.addHeader("token_access_error", "Token expirado.");
+    } catch (Exception ex) {
+      response.addHeader("token_access_error", "Erro no token.");
     }
 
     filterChain.doFilter(request, response);
