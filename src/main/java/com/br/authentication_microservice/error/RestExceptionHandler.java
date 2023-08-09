@@ -33,7 +33,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     MessageExceptionHandler messageExceptionHandler = MessageExceptionHandler.builder()
         .withTimestamp(new Date())
-        .withCode(HttpStatus.FORBIDDEN.value())
+        .withCode(HttpStatus.UNAUTHORIZED.value())
         .withMessage("Acesso negado!")
         .build();
 
