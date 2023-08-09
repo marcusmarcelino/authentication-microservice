@@ -58,12 +58,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     } catch (UnsupportedJwtException ex) {
       response.addHeader("token_access_error", "Formato de token incorreto.");
     } catch (ExpiredJwtException ex) {
-      // String responseBody = "{\"message\": +\"Token Expirado.\",\"description\":" +
-      // ex.getLocalizedMessage() + " }";
-
-      // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-      // response.getWriter().println(responseBody);
-      // response.getWriter().write(responseBody);
       response.addHeader("token_access_error", "Token expirado.");
     }
 
