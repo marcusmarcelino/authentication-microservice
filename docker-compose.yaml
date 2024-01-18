@@ -1,0 +1,20 @@
+version: '3'
+services:
+  dbbuyrev:
+    image: postgres
+    container_name: dbbuyrev
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=testdb
+    ports:
+      - 5432:5432
+
+  apibuyrev:
+    build: .
+    container_name: apibuyrev
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - dbbuyrev
